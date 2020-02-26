@@ -1,0 +1,27 @@
+name: device_calendar_extended
+version: 0.1.0
+homepage: https://www.rescomms.com/
+description: A device calendar plugin that supports background synchronisation, recurrence rules and uses ObjectiveC for iOS
+environment: 
+  sdk: '>=2.1.0 <3.0.0'
+  flutter: '>=1.10.0 <2.0.0'
+dependencies: 
+  built_collection: ^4.3.0
+  built_value: ^7.0.0
+  flutter: 
+    sdk: flutter
+dev_dependencies: 
+  meta: 1.1.8
+  test: 1.9.4
+  built_value_generator: 7.0.0
+  build_runner: 1.7.2
+  flutter_test: 
+    sdk: flutter
+flutter: 
+  plugin: 
+    platforms:
+      android: 
+        package: com.rescomms.device_calendar_extended
+        pluginClass: DeviceCalendarExtendedPlugin
+      ios:
+        pluginClass: DeviceCalendarExtendedPlugin

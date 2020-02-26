@@ -1,0 +1,93 @@
+analyzer:
+  strong-mode:
+    implicit-casts: false
+  errors:
+    todo: ignore
+  exclude:
+    # This excludes generated Dart files, but Dart analyser fails
+    # See https://github.com/dart-lang/sdk/issues/25551
+    - "**/*.g.dart"
+    # Execlude example, as it will have its own options and the
+    # dart analyser fails to properly document nested packages
+    - "example/**/*"
+
+linter:
+  # See http://dart-lang.github.io/linter/lints/
+  rules:
+    - public_member_api_docs
+    - always_specify_types
+    - avoid_bool_literals_in_conditional_expressions
+    - avoid_catches_without_on_clauses
+    - avoid_catching_errors
+    - avoid_implementing_value_types
+    - avoid_init_to_null
+    - avoid_null_checks_in_equality_operators
+    - avoid_private_typedef_functions
+    - avoid_renaming_method_parameters
+    - avoid_return_types_on_setters
+    - avoid_returning_null
+    - avoid_returning_null_for_void
+    - avoid_returning_this
+    - avoid_setters_without_getters
+    - avoid_single_cascade_in_expression_statements
+    - avoid_unused_constructor_parameters
+    - avoid_void_async
+    - camel_case_types
+    # - cascade_invocations
+    - constant_identifier_names
+    - curly_braces_in_flow_control_structures
+    - directives_ordering
+    - empty_catches
+    - empty_constructor_bodies
+    - file_names
+    - implementation_imports
+    - library_names
+    - library_prefixes
+    - non_constant_identifier_names
+    - null_closures
+    - one_member_abstracts
+    - only_throw_errors
+    - overridden_fields
+    - package_api_docs
+    - package_names
+    - package_prefixed_library_names
+    - parameter_assignments
+    - prefer_adjacent_string_concatenation
+    - prefer_collection_literals
+    - prefer_const_constructors
+    - prefer_const_declarations
+    - prefer_constructors_over_static_methods
+    - prefer_contains
+    - prefer_equal_for_default_values
+    - prefer_final_fields
+    - prefer_final_locals
+    - prefer_foreach
+    - prefer_function_declarations_over_variables
+    - prefer_initializing_formals
+    - prefer_interpolation_to_compose_strings
+    - prefer_is_empty
+    - prefer_is_not_empty
+    - prefer_iterable_whereType
+    - prefer_mixin
+    - prefer_single_quotes
+    - prefer_typing_uninitialized_variables
+    - recursive_getters
+    - slash_for_doc_comments
+    - sort_pub_dependencies
+    - type_annotate_public_apis
+    - type_init_formals
+    - unawaited_futures
+    - unnecessary_brace_in_string_interps
+    - unnecessary_const
+    - unnecessary_getters_setters
+    - unnecessary_lambdas
+    - unnecessary_new
+    - unnecessary_null_aware_assignments
+    - unnecessary_null_in_if_null_operators
+    - unnecessary_overrides
+    - unnecessary_parenthesis
+    - unnecessary_this
+    - use_rethrow_when_possible
+    - use_setters_to_change_properties
+    - use_to_and_as_if_applicable
+    - void_checks
