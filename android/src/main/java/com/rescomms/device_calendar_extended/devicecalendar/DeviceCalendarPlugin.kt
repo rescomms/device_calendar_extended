@@ -1,19 +1,24 @@
 package com.rescomms.device_calendar_extended.devicecalendar
 
 import android.app.Activity
+import android.content.BroadcastReceiver
 import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import com.rescomms.device_calendar_extended.devicecalendar.common.DayOfWeek
 import com.rescomms.device_calendar_extended.devicecalendar.common.RecurrenceFrequency
 import com.rescomms.device_calendar_extended.devicecalendar.models.Attendee
 import com.rescomms.device_calendar_extended.devicecalendar.models.Event
 import com.rescomms.device_calendar_extended.devicecalendar.models.RecurrenceRule
 import com.rescomms.device_calendar_extended.devicecalendar.models.Reminder
+import io.flutter.plugin.common.EventChannel
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 import io.flutter.plugin.common.MethodChannel.Result
 import io.flutter.plugin.common.PluginRegistry.Registrar
 
+const val CHANNEL_NAME = "plugins.rescomms.com/device_calendar"
 const val STREAM_NAME = "calendarChangeEvent/stream"
 
 class DeviceCalendarPlugin() : MethodCallHandler {
@@ -67,6 +72,15 @@ class DeviceCalendarPlugin() : MethodCallHandler {
             val context: Context = registrar.context()
             val activity: Activity? = registrar.activity()
 
+            val receiver = CalendarReceiver()
+            val filter = IntentFilter(Intent.ACTION_PROVIDER_CHANGED)
+            filter.addDataScheme("content")
+            filter.addDataAuthority("com.android.calendar", null)
+            activity?.let {
+                it.registerReceiver(receiver, filter)
+            }
+
+            EventChannel(registrar.messenger(), STREAM_NAME).setStreamHandler(receiver)
             val calendarDelegate = CalendarDelegate(activity, context)
             val instance = DeviceCalendarPlugin(registrar, calendarDelegate)
 
@@ -75,6 +89,20 @@ class DeviceCalendarPlugin() : MethodCallHandler {
 
             registrar.addRequestPermissionsResultListener(calendarDelegate)
             return instance
+        }
+
+        class CalendarReceiver: BroadcastReceiver(), EventChannel.StreamHandler {
+            override fun onReceive(context: Context, intent: Intent) {
+                events.success("success")
+            }
+
+            override fun onListen(arguments: Any?, eventSink: EventChannel.EventSink) {
+                events = eventSink
+            }
+
+            override fun onCancel(arguments: Any?) {
+
+            }
         }
     }
 
