@@ -1,19 +1,39 @@
 package com.rescomms.device_calendar_extended;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.util.Log;
+
 import androidx.annotation.NonNull;
+
+import com.rescomms.device_calendar_extended.devicecalendar.DeviceCalendarPlugin;
+
 import io.flutter.embedding.engine.plugins.FlutterPlugin;
-import io.flutter.plugin.common.MethodCall;
+import io.flutter.embedding.engine.plugins.shim.ShimPluginRegistry;
+import io.flutter.plugin.common.EventChannel;
 import io.flutter.plugin.common.MethodChannel;
-import io.flutter.plugin.common.MethodChannel.MethodCallHandler;
-import io.flutter.plugin.common.MethodChannel.Result;
 import io.flutter.plugin.common.PluginRegistry.Registrar;
 
+import static com.rescomms.device_calendar_extended.devicecalendar.DeviceCalendarPluginKt.STREAM_NAME;
+
 /** DeviceCalendarExtendedPlugin */
-public class DeviceCalendarExtendedPlugin implements FlutterPlugin, MethodCallHandler {
+public class DeviceCalendarExtendedPlugin implements FlutterPlugin {
+  static EventChannel.EventSink events;
   @Override
   public void onAttachedToEngine(@NonNull FlutterPluginBinding flutterPluginBinding) {
     final MethodChannel channel = new MethodChannel(flutterPluginBinding.getFlutterEngine().getDartExecutor(), "device_calendar_extended");
-    channel.setMethodCallHandler(new DeviceCalendarExtendedPlugin());
+    ShimPluginRegistry shimPluginRegistry = new ShimPluginRegistry(flutterPluginBinding.getFlutterEngine());
+    Registrar registrar = shimPluginRegistry.registrarFor("com.rescomms.device_calendar_extended.devicecalendar.DeviceCalendarPlugin");
+//
+//    CalendarReceiver receiver = new CalendarReceiver();
+//    IntentFilter filter = new IntentFilter(Intent.ACTION_PROVIDER_CHANGED);
+//    filter.addDataScheme("content");
+//    filter.addDataAuthority("com.android.calendar", null);
+//    registrar.activity().registerReceiver(receiver, filter);
+//    new EventChannel(flutterPluginBinding.getBinaryMessenger(), STREAM_NAME).setStreamHandler(receiver);
+    channel.setMethodCallHandler(DeviceCalendarPlugin.registerWith(registrar));
   }
 
   // This static function is optional and equivalent to onAttachedToEngine. It supports the old
@@ -27,16 +47,7 @@ public class DeviceCalendarExtendedPlugin implements FlutterPlugin, MethodCallHa
   // in the same class.
   public static void registerWith(Registrar registrar) {
     final MethodChannel channel = new MethodChannel(registrar.messenger(), "device_calendar_extended");
-    channel.setMethodCallHandler(new DeviceCalendarExtendedPlugin());
-  }
-
-  @Override
-  public void onMethodCall(@NonNull MethodCall call, @NonNull Result result) {
-    if (call.method.equals("getPlatformVersion")) {
-      result.success("Android " + android.os.Build.VERSION.RELEASE);
-    } else {
-      result.notImplemented();
-    }
+    channel.setMethodCallHandler(DeviceCalendarPlugin.registerWith(registrar));
   }
 
   @Override
