@@ -19,14 +19,40 @@ import 'models/retrieve_events_params.dart';
 class DeviceCalendarExtended {
   static const MethodChannel channel =
   const MethodChannel('plugins.rescomms.com/device_calendar');
+  static const stream = const EventChannel('calendarChangeEvent/stream');
 
   static final DeviceCalendarExtended _instance = DeviceCalendarExtended.private();
+  StreamSubscription _calendarSubscription = null;
   factory DeviceCalendarExtended() {
     return _instance;
   }
 
   @visibleForTesting
   DeviceCalendarExtended.private();
+
+
+  /// Subscribe to calendar events listener
+  ///
+  /// The 'action' function that is called when the calendar is changed
+  void subscribeToCalendarEvents(Function action) {
+    if (_calendarSubscription == null) {
+      _calendarSubscription = stream.receiveBroadcastStream().listen((event) => _updateCalendarEvents(event, action));
+    }
+  }
+
+  /// Unsubscribe to calendar events listener
+  ///
+  void unsubscribeFromCalendarEvents() {
+    if (_calendarSubscription != null) {
+      _calendarSubscription.cancel();
+      _calendarSubscription = null;
+    }
+  }
+
+  void _updateCalendarEvents(event, Function action) {
+    print(event);
+    action();
+  }
 
   /// Requests permissions to modify the calendars on the device
   ///
