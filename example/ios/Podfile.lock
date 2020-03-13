@@ -1,0 +1,29 @@
+PODS:
+  - device_calendar_extended (0.0.1):
+    - Flutter
+  - Flutter (1.0.0)
+  - JSONModel (1.8.0)
+
+DEPENDENCIES:
+  - device_calendar_extended (from `.symlinks/plugins/device_calendar_extended/ios`)
+  - Flutter (from `Flutter`)
+  - JSONModel
+
+SPEC REPOS:
+  trunk:
+    - JSONModel
+
+EXTERNAL SOURCES:
+  device_calendar_extended:
+    :path: ".symlinks/plugins/device_calendar_extended/ios"
+  Flutter:
+    :path: Flutter
+
+SPEC CHECKSUMS:
+  device_calendar_extended: 8794b42172f5bb43937eaf4d1dd303a05cad77ac
+  Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
+  JSONModel: 02ab723958366a3fd27da57ea2af2113658762e9
+
+PODFILE CHECKSUM: 258720e198f9b5548e3670c043eb28b7675f7964
+
+COCOAPODS: 1.8.4
