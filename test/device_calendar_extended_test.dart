@@ -23,7 +23,8 @@ void main() {
 
     setUp(() async {
       plugin = DeviceCalendarExtended();
-      calendars = await plugin.retrieveCalendars();
+      final calendarsResult = await plugin.retrieveCalendars();
+      calendars = calendarsResult?.data;
     });
 
     tearDown(() {
@@ -44,8 +45,12 @@ void main() {
 
     test('retrieveEvents()', () async {
       final Calendar calendar = calendars.first;
-      final Iterable<CalendarEvent> events = await plugin.retrieveEvents(calendar.id);
-      final Iterable<String> ids = events.map((final CalendarEvent c) => c.id);
+      final startDate = DateTime.now().add(Duration(days: -30));
+      final endDate = DateTime.now().add(Duration(days: 30));
+      final calendarEventsResult = await plugin.retrieveEvents(calendar.id,
+          RetrieveEventsParams(startDate: startDate, endDate: endDate));
+      final Iterable<Event> events = calendarEventsResult?.data;
+      final Iterable<String> ids = events.map((final Event c) => c.eventId);
 
       expect(events.isNotEmpty, true, reason: 'Should not be empty');
       expect(ids.length, ids.toSet().length, reason: 'Should have unique ids');
